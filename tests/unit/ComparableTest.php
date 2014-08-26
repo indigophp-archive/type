@@ -28,16 +28,13 @@ class ComparableTest extends Test
             0 => [0, 1, -1],
             1 => [0, 0, 0],
             2 => [1, 0, 1],
+            3 => [-2, -1, -1],
+            4 => [-1, -1, 0],
+            5 => [1, -1, 1],
         ];
     }
 
     /**
-     * @covers       ::compareTo
-     * @covers       ::equals
-     * @covers       ::greaterThan
-     * @covers       ::greaterThanOrEqual
-     * @covers       ::lessThan
-     * @covers       ::lessThanOrEqual
      * @dataProvider valueProvider
      */
     public function testCompare($value, $other, $compare)
@@ -52,12 +49,20 @@ class ComparableTest extends Test
         switch ($compare) {
             case 0:
                 $equals = true;
+
+                $value->assertEquals($other);
                 break;
             case -1:
                 $less = true;
+
+                $value->assertLessThan($other);
+                $value->assertNotEquals($other);
                 break;
             case 1:
                 $greater = true;
+
+                $value->assertGreaterThan($other);
+                $value->assertNotEquals($other);
                 break;
         }
 
@@ -66,5 +71,49 @@ class ComparableTest extends Test
         $this->assertEquals($greater or $equals, $value->greaterThanOrEqual($other));
         $this->assertEquals($less, $value->lessThan($other));
         $this->assertEquals($less or $equals, $value->lessThanOrEqual($other));
+    }
+
+    /**
+     * @expectedException Indigo\Comparison\AssertionFailedException
+     */
+    public function testAssertEqualsFail()
+    {
+        $value = new DummyObject(1);
+        $other = new DummyObject(0);
+
+        $value->assertEquals($other);
+    }
+
+    /**
+     * @expectedException Indigo\Comparison\AssertionFailedException
+     */
+    public function testAssertNotEqualsFail()
+    {
+        $value = new DummyObject(1);
+        $other = new DummyObject(1);
+
+        $value->assertNotEquals($other);
+    }
+
+    /**
+     * @expectedException Indigo\Comparison\AssertionFailedException
+     */
+    public function testAssertGreaterThanFail()
+    {
+        $value = new DummyObject(0);
+        $other = new DummyObject(1);
+
+        $value->assertGreaterThan($other);
+    }
+
+    /**
+     * @expectedException Indigo\Comparison\AssertionFailedException
+     */
+    public function testAssertLessThanFail()
+    {
+        $value = new DummyObject(1);
+        $other = new DummyObject(0);
+
+        $value->assertLessThan($other);
     }
 }

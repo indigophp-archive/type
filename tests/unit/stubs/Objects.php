@@ -18,7 +18,9 @@ namespace Indigo\Comparison;
  */
 class DummyObject
 {
+    use AssertComparableTrait;
     use SimpleComparableTrait;
+    use AssertSameTrait;
     use SameTrait;
 
     /**

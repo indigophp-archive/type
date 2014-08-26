@@ -44,7 +44,7 @@ trait AssertComparableTrait
      */
     public function assertNotEquals(self $value)
     {
-        if (!$this->equals($value)) {
+        if (!$this->notEquals($value)) {
             throw new AssertionFailedException('Failed asserting that the value represented by this object does not equal to the other.');
         }
     }

@@ -16,7 +16,7 @@ namespace Indigo\Comparison;
  *
  * @author Márk Sági-Kazár <mark.sagikazar@gmail.com>
  */
-class AssertionFailedException
+class AssertionFailedException extends \RuntimeException
 {
 
 }
